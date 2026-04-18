@@ -7,11 +7,13 @@ import {
   getSheetDimensions,
   type SheetType,
 } from "@/lib/layout";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const SHEET_TYPES = [...Object.keys(SHEET_SIZES), "Personalizado"] as SheetType[];
 
 export default function PliegoClient() {
+  const router = useRouter();
   const [sheetType, setSheetType]   = useState<SheetType>("A4");
   const [customW, setCustomW]       = useState(300);
   const [customH, setCustomH]       = useState(400);
@@ -102,6 +104,23 @@ export default function PliegoClient() {
             cellW={eff.w}
             cellH={eff.h}
           />
+          <button
+            onClick={() => {
+              const params = new URLSearchParams({
+                sheetType,
+                customW: String(customW),
+                customH: String(customH),
+                stickerW: String(stickerW),
+                stickerH: String(stickerH),
+                bleed: String(bleed),
+                qty: String(qty),
+              });
+              router.push(`/dashboard/presupuesto?${params}`);
+            }}
+            style={btnPresupuesto}
+          >
+            Pasar a Presupuesto →
+          </button>
         </section>
       ) : (
         stickerW > 0 && stickerH > 0 && (
@@ -178,3 +197,7 @@ const bigResult: React.CSSProperties = {
   borderRadius: 12, padding: 20, textAlign: "center",
 };
 const row2: React.CSSProperties = { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 };
+const btnPresupuesto: React.CSSProperties = {
+  marginTop: 16, width: "100%", padding: "12px 0", borderRadius: 8, border: "none",
+  background: "#f97316", color: "#fff", fontSize: 14, fontWeight: 600, cursor: "pointer",
+};

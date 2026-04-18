@@ -9,7 +9,7 @@ import {
   type SheetType,
 } from "@/lib/layout";
 import { calculatePricing } from "@/lib/pricing";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const SHEET_TYPES = [...Object.keys(SHEET_SIZES), "Personalizado"] as SheetType[];
@@ -18,14 +18,15 @@ type LineSel = { selected: boolean; qty: number };
 
 export default function PresupuestoClient({ materials }: { materials: Material[] }) {
   const router = useRouter();
+  const params = useSearchParams();
   const [name, setName]         = useState("");
-  const [qty, setQty]           = useState(100);
-  const [sheetType, setSheetType] = useState<SheetType>("A4");
-  const [customW, setCustomW]   = useState(300);
-  const [customH, setCustomH]   = useState(400);
-  const [stickerW, setStickerW] = useState(50);
-  const [stickerH, setStickerH] = useState(50);
-  const [bleed, setBleed]       = useState(2);
+  const [qty, setQty]           = useState(() => Number(params.get("qty")) || 100);
+  const [sheetType, setSheetType] = useState<SheetType>(() => (params.get("sheetType") as SheetType) || "A4");
+  const [customW, setCustomW]   = useState(() => Number(params.get("customW")) || 300);
+  const [customH, setCustomH]   = useState(() => Number(params.get("customH")) || 400);
+  const [stickerW, setStickerW] = useState(() => Number(params.get("stickerW")) || 50);
+  const [stickerH, setStickerH] = useState(() => Number(params.get("stickerH")) || 50);
+  const [bleed, setBleed]       = useState(() => Number(params.get("bleed")) || 2);
   const [markup, setMarkup]     = useState(50);
   const [sel, setSel]           = useState<Record<string, LineSel>>({});
   const [saving, setSaving]     = useState(false);
