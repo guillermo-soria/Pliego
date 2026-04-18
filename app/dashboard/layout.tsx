@@ -14,7 +14,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* Header */}
       <header style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 28, paddingBottom: 18, borderBottom: "1px solid #2e2e38" }}>
         <div style={{ fontSize: 24, fontWeight: 700, letterSpacing: -1, color: "#f97316" }}>
-          mati<span style={{ color: "#f1f0ed" }}>ssa</span>
+          Pliego
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <nav style={{ display: "flex", gap: 4 }}>
