@@ -47,8 +47,8 @@ export default function PliegoClient() {
         </div>
         {sheetType === "Personalizado" && (
           <div style={row2}>
-            <Field label="Ancho hoja (mm)"><input style={input} type="number" value={customW} onChange={(e) => setCustomW(+e.target.value)} /></Field>
-            <Field label="Alto hoja (mm)"><input style={input} type="number" value={customH} onChange={(e) => setCustomH(+e.target.value)} /></Field>
+            <Field label="Ancho hoja (mm)"><input style={input} type="number" value={customW || ""} onChange={(e) => setCustomW(+e.target.value)} /></Field>
+            <Field label="Alto hoja (mm)"><input style={input} type="number" value={customH || ""} onChange={(e) => setCustomH(+e.target.value)} /></Field>
           </div>
         )}
       </section>
@@ -57,10 +57,10 @@ export default function PliegoClient() {
       <section style={card}>
         <label style={cardTitle}>Medida del sticker</label>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 12 }}>
-          <Field label="Ancho (mm)"><input style={input} type="number" value={stickerW} onChange={(e) => setStickerW(+e.target.value)} min={5} /></Field>
-          <Field label="Alto (mm)"><input style={input} type="number" value={stickerH} onChange={(e) => setStickerH(+e.target.value)} min={5} /></Field>
+          <Field label="Ancho (mm)"><input style={input} type="number" value={stickerW || ""} onChange={(e) => setStickerW(+e.target.value)} min={5} /></Field>
+          <Field label="Alto (mm)"><input style={input} type="number" value={stickerH || ""} onChange={(e) => setStickerH(+e.target.value)} min={5} /></Field>
           <Field label="Sangría (mm)"><input style={input} type="number" value={bleed} onChange={(e) => setBleed(+e.target.value)} min={0} /></Field>
-          <Field label="Cantidad pedido"><input style={input} type="number" value={qty} onChange={(e) => setQty(+e.target.value)} min={1} /></Field>
+          <Field label="Cantidad pedido"><input style={input} type="number" value={qty || ""} onChange={(e) => setQty(+e.target.value)} min={1} /></Field>
         </div>
       </section>
 

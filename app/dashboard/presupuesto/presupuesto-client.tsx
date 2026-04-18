@@ -101,7 +101,7 @@ export default function PresupuestoClient({ materials }: { materials: Material[]
         </Field>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
           <Field label="Cantidad de stickers">
-            <input style={inp} type="number" value={qty} onChange={(e) => setQty(+e.target.value)} min={1} />
+            <input style={inp} type="number" value={qty || ""} onChange={(e) => setQty(+e.target.value)} min={1} />
           </Field>
           <Field label="Tipo de hoja">
             <select style={inp} value={sheetType} onChange={(e) => setSheetType(e.target.value as SheetType)}>
@@ -111,13 +111,13 @@ export default function PresupuestoClient({ materials }: { materials: Material[]
         </div>
         {sheetType === "Personalizado" && (
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-            <Field label="Ancho hoja (mm)"><input style={inp} type="number" value={customW} onChange={(e) => setCustomW(+e.target.value)} /></Field>
-            <Field label="Alto hoja (mm)"><input style={inp} type="number" value={customH} onChange={(e) => setCustomH(+e.target.value)} /></Field>
+            <Field label="Ancho hoja (mm)"><input style={inp} type="number" value={customW || ""} onChange={(e) => setCustomW(+e.target.value)} /></Field>
+            <Field label="Alto hoja (mm)"><input style={inp} type="number" value={customH || ""} onChange={(e) => setCustomH(+e.target.value)} /></Field>
           </div>
         )}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
-          <Field label="Ancho sticker (mm)"><input style={inp} type="number" value={stickerW} onChange={(e) => setStickerW(+e.target.value)} min={5} /></Field>
-          <Field label="Alto sticker (mm)"><input style={inp} type="number" value={stickerH} onChange={(e) => setStickerH(+e.target.value)} min={5} /></Field>
+          <Field label="Ancho sticker (mm)"><input style={inp} type="number" value={stickerW || ""} onChange={(e) => setStickerW(+e.target.value)} min={5} /></Field>
+          <Field label="Alto sticker (mm)"><input style={inp} type="number" value={stickerH || ""} onChange={(e) => setStickerH(+e.target.value)} min={5} /></Field>
           <Field label="Sangría (mm)"><input style={inp} type="number" value={bleed} onChange={(e) => setBleed(+e.target.value)} min={0} /></Field>
         </div>
       </section>
@@ -160,7 +160,7 @@ export default function PresupuestoClient({ materials }: { materials: Material[]
               </div>
               <input
                 type="number"
-                value={s?.qty ?? 0}
+                value={s?.qty || ""}
                 onChange={(e) => setMatQty(m.id, +e.target.value)}
                 disabled={!s?.selected}
                 style={{ ...inp, width: 70, textAlign: "center", padding: "6px 8px", fontSize: 13, opacity: s?.selected ? 1 : 0.4 }}
