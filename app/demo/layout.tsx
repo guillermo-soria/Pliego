@@ -1,4 +1,5 @@
 import Link from "next/link";
+import DemoBanner from "./DemoBanner";
 
 const NAV_LINKS = [
   { href: "/demo/pliego",      label: "Pliego" },
@@ -10,13 +11,7 @@ const NAV_LINKS = [
 export default function DemoLayout({ children }: { children: React.ReactNode }) {
   return (
     <div style={{ background: "#0f0f11", minHeight: "100vh", color: "#f1f0ed" }}>
-      {/* Demo banner */}
-      <div style={{ background: "#f97316", color: "#fff", textAlign: "center", padding: "8px 16px", fontSize: 13, fontWeight: 500 }}>
-        Modo demo — los datos no se guardan ·{" "}
-        <Link href="/sign-up" style={{ color: "#fff", fontWeight: 700, textDecoration: "underline" }}>
-          Crear cuenta gratis →
-        </Link>
-      </div>
+      <DemoBanner />
 
       <div style={{ maxWidth: 920, margin: "0 auto", padding: "20px 16px 80px" }}>
         {/* Header */}
