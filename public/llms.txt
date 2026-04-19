@@ -1,0 +1,23 @@
+# Pliego
+
+Pliego es una aplicación web para calcular presupuestos de stickers, laminados y otros productos de imprenta.
+
+## Qué hace
+
+- Calcula cuántos stickers entran en una hoja (armado en pliego) con soporte para orientación normal y rotada
+- Genera presupuestos con costo de materiales, margen de ganancia y precio por unidad
+- Guarda historial de presupuestos por usuario
+- Gestión de materiales con precio por unidad (hojas, laminados, etc.)
+
+## Demo
+
+Disponible en /demo sin necesidad de registrarse. Permite probar todas las funcionalidades con datos de ejemplo.
+
+## Stack
+
+- Next.js (App Router), TypeScript, Turso (SQLite), Drizzle ORM, Clerk (auth)
+- Hosting en Vercel
+
+## Público objetivo
+
+Imprentas, estudios de diseño y emprendedores que producen stickers y productos laminados en Uruguay y Argentina.
