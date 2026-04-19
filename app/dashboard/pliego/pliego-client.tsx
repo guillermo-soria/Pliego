@@ -1,6 +1,5 @@
 "use client";
 
-import DemoLimitModal from "@/app/demo/DemoLimitModal";
 import {
   SHEET_SIZES,
   calculateLayout,
@@ -45,8 +44,6 @@ export default function PliegoClient({ isDemo }: { isDemo?: boolean }) {
 
   return (
     <div>
-      {isDemo && limitReached && <DemoLimitModal />}
-
       <h1 style={{ fontWeight: 700, fontSize: 22, marginBottom: 4 }}>Armado en Pliego</h1>
       <p style={{ color: "#71717a", fontSize: 13, marginBottom: 24 }}>
         Calculá cuántos stickers entran por hoja

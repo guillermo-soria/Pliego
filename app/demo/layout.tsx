@@ -1,5 +1,6 @@
 import Link from "next/link";
 import DemoBanner from "./DemoBanner";
+import DemoGuard from "./DemoGuard";
 
 const NAV_LINKS = [
   { href: "/demo/pliego",      label: "Pliego" },
@@ -37,7 +38,9 @@ export default function DemoLayout({ children }: { children: React.ReactNode }) 
           </div>
         </header>
 
-        <main>{children}</main>
+        <DemoGuard>
+          <main>{children}</main>
+        </DemoGuard>
       </div>
     </div>
   );
