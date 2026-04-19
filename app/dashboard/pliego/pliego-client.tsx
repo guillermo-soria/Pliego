@@ -1,5 +1,6 @@
 "use client";
 
+import DemoLimitModal from "@/app/demo/DemoLimitModal";
 import {
   SHEET_SIZES,
   calculateLayout,
@@ -7,12 +8,13 @@ import {
   getSheetDimensions,
   type SheetType,
 } from "@/lib/layout";
+import { useDemoUsage } from "@/lib/useDemoUsage";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const SHEET_TYPES = [...Object.keys(SHEET_SIZES), "Personalizado"] as SheetType[];
 
-export default function PliegoClient() {
+export default function PliegoClient({ isDemo }: { isDemo?: boolean }) {
   const router = useRouter();
   const [sheetType, setSheetType]   = useState<SheetType>("A4");
   const [customW, setCustomW]       = useState(300);
@@ -22,15 +24,37 @@ export default function PliegoClient() {
   const [bleed, setBleed]           = useState(2);
   const [qty, setQty]               = useState(100);
 
+  const { usesLeft, limitReached, increment } = useDemoUsage();
+
+  // Track parameter changes in demo mode (debounced 1.5s)
+  const mounted = useRef(false);
+  useEffect(() => {
+    if (!isDemo) return;
+    if (!mounted.current) { mounted.current = true; return; }
+    if (limitReached) return;
+    const timer = setTimeout(increment, 1500);
+    return () => clearTimeout(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sheetType, customW, customH, stickerW, stickerH, bleed, qty]);
+
   const sheet = getSheetDimensions(sheetType, customW, customH);
   const eff   = effectiveSize(stickerW, stickerH, bleed);
   const result = calculateLayout(sheet, eff.w, eff.h, qty);
 
+  const presupuestoPath = isDemo ? "/demo/presupuesto" : "/dashboard/presupuesto";
+
   return (
     <div>
+      {isDemo && limitReached && <DemoLimitModal />}
+
       <h1 style={{ fontWeight: 700, fontSize: 22, marginBottom: 4 }}>Armado en Pliego</h1>
       <p style={{ color: "#71717a", fontSize: 13, marginBottom: 24 }}>
         Calculá cuántos stickers entran por hoja
+        {isDemo && !limitReached && (
+          <span style={{ marginLeft: 12, color: "#f97316", fontFamily: "monospace", fontSize: 12 }}>
+            {usesLeft} cálculos restantes
+          </span>
+        )}
       </p>
 
       {/* Tipo de hoja */}
@@ -115,7 +139,7 @@ export default function PliegoClient() {
                 bleed: String(bleed),
                 qty: String(qty),
               });
-              router.push(`/dashboard/presupuesto?${params}`);
+              router.push(`${presupuestoPath}?${params}`);
             }}
             style={btnPresupuesto}
           >
