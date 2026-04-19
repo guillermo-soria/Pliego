@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Allow: /demo/
+Disallow: /dashboard/
+Disallow: /api/
+
+Sitemap: https://pliego.com.uy/sitemap.xml

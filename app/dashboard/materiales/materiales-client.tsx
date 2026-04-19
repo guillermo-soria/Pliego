@@ -10,7 +10,7 @@ const UNITS      = ["hoja", "m²", "unidad"];
 type Form = { name: string; category: string; unit: string; price: string; color: string };
 const EMPTY_FORM: Form = { name: "", category: "Sustrato", unit: "hoja", price: "", color: "#f97316" };
 
-export default function MaterialesClient({ initialMaterials }: { initialMaterials: Material[] }) {
+export default function MaterialesClient({ initialMaterials, isDemo }: { initialMaterials: Material[]; isDemo?: boolean }) {
   const router   = useRouter();
   const [items, setItems]   = useState(initialMaterials);
   const [modal, setModal]   = useState<"new" | Material | null>(null);
@@ -55,7 +55,7 @@ export default function MaterialesClient({ initialMaterials }: { initialMaterial
           <h1 style={{ fontWeight: 700, fontSize: 22 }}>Materiales</h1>
           <p style={{ color: "#71717a", fontSize: 13, marginTop: 2 }}>{items.length} materiales cargados</p>
         </div>
-        <button onClick={openNew} style={btnPrimary}>+ Agregar</button>
+        {!isDemo && <button onClick={openNew} style={btnPrimary}>+ Agregar</button>}
       </div>
 
       {cats.map((cat) => (
@@ -69,8 +69,8 @@ export default function MaterialesClient({ initialMaterials }: { initialMaterial
                 <div style={{ fontSize: 11, color: "#71717a", fontFamily: "monospace" }}>por {m.unit}</div>
               </div>
               <div style={{ fontFamily: "monospace", fontSize: 15, color: "#f97316", marginRight: 8 }}>${m.price.toFixed(2)}</div>
-              <button onClick={() => openEdit(m)} style={iconBtn}>✏️</button>
-              <button onClick={() => handleDelete(m.id)} style={iconBtn}>🗑</button>
+              {!isDemo && <button onClick={() => openEdit(m)} style={iconBtn}>✏️</button>}
+              {!isDemo && <button onClick={() => handleDelete(m.id)} style={iconBtn}>🗑</button>}
             </div>
           ))}
         </div>

@@ -16,7 +16,7 @@ const SHEET_TYPES = [...Object.keys(SHEET_SIZES), "Personalizado"] as SheetType[
 
 type LineSel = { selected: boolean; qty: number };
 
-export default function PresupuestoClient({ materials }: { materials: Material[] }) {
+export default function PresupuestoClient({ materials, isDemo }: { materials: Material[]; isDemo?: boolean }) {
   const router = useRouter();
   const params = useSearchParams();
   const [name, setName]         = useState("");
@@ -71,6 +71,7 @@ export default function PresupuestoClient({ materials }: { materials: Material[]
 
   const handleSave = async () => {
     if (layout.perSheet === 0) return;
+    if (isDemo) { router.push("/sign-up"); return; }
     setSaving(true);
     await fetch("/api/quotes", {
       method: "POST",
@@ -204,7 +205,7 @@ export default function PresupuestoClient({ materials }: { materials: Material[]
           disabled={saving || saved || layout.perSheet === 0}
           style={{ ...btnPrimary, width: "100%", justifyContent: "center", padding: 14, marginTop: 16, fontSize: 14, background: saved ? "#4ade80" : "#f97316", color: saved ? "#0f0f11" : "#fff", opacity: layout.perSheet === 0 ? 0.5 : 1 }}
         >
-          {saved ? "✓ ¡Guardado! Redirigiendo…" : saving ? "Guardando…" : "✓ Guardar presupuesto"}
+          {isDemo ? "Crear cuenta para guardar →" : saved ? "✓ ¡Guardado! Redirigiendo…" : saving ? "Guardando…" : "✓ Guardar presupuesto"}
         </button>
       </section>
     </div>

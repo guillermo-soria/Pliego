@@ -4,7 +4,7 @@ import type { QuoteItem, QuoteWithItems } from "@/db/schema";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function HistorialClient({ initialQuotes }: { initialQuotes: QuoteWithItems[] }) {
+export default function HistorialClient({ initialQuotes, isDemo }: { initialQuotes: QuoteWithItems[]; isDemo?: boolean }) {
   const router = useRouter();
   const [quotes, setQuotes] = useState(initialQuotes);
   const [expanded, setExpanded] = useState<string | null>(null);
@@ -77,14 +77,16 @@ export default function HistorialClient({ initialQuotes }: { initialQuotes: Quot
                 <span style={{ fontWeight: 600 }}>Precio por unidad</span>
                 <span style={{ fontFamily: "monospace", fontSize: 16, color: "#4ade80" }}>${q.pricePerUnit.toFixed(2)}</span>
               </div>
-              <button
-                onClick={() => handleDelete(q.id)}
-                style={{ marginTop: 12, width: "100%", padding: "9px 0", borderRadius: 8, border: "1px solid transparent", background: "transparent", color: "#f87171", fontSize: 13, cursor: "pointer", fontWeight: 500 }}
-                onMouseOver={(e) => { (e.target as HTMLElement).style.borderColor = "#f87171"; }}
-                onMouseOut={(e)  => { (e.target as HTMLElement).style.borderColor = "transparent"; }}
-              >
-                🗑 Eliminar presupuesto
-              </button>
+              {!isDemo && (
+                <button
+                  onClick={() => handleDelete(q.id)}
+                  style={{ marginTop: 12, width: "100%", padding: "9px 0", borderRadius: 8, border: "1px solid transparent", background: "transparent", color: "#f87171", fontSize: 13, cursor: "pointer", fontWeight: 500 }}
+                  onMouseOver={(e) => { (e.target as HTMLElement).style.borderColor = "#f87171"; }}
+                  onMouseOut={(e)  => { (e.target as HTMLElement).style.borderColor = "transparent"; }}
+                >
+                  🗑 Eliminar presupuesto
+                </button>
+              )}
             </div>
           )}
         </div>
