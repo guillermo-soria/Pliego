@@ -9,6 +9,7 @@ import {
   type SheetType,
 } from "@/lib/layout";
 import { calculatePricing } from "@/lib/pricing";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -94,34 +95,57 @@ export default function PresupuestoClient({ materials, isDemo }: { materials: Ma
       <h1 style={{ fontWeight: 700, fontSize: 22, marginBottom: 4 }}>Nuevo Presupuesto</h1>
       <p style={{ color: "#71717a", fontSize: 13, marginBottom: 24 }}>Calculá costo y precio de venta</p>
 
-      {/* Datos del pedido */}
-      <section style={card}>
-        <span style={cardTitle}>Datos del pedido</span>
-        <Field label="Nombre (opcional)">
-          <input style={inp} value={name} onChange={(e) => setName(e.target.value)} placeholder="Ej: Stickers logo cliente X" />
-        </Field>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-          <Field label="Cantidad de stickers">
-            <input style={inp} type="number" value={qty || ""} onChange={(e) => setQty(+e.target.value)} min={1} />
-          </Field>
-          <Field label="Tipo de hoja">
-            <select style={inp} value={sheetType} onChange={(e) => setSheetType(e.target.value as SheetType)}>
-              {SHEET_TYPES.map((k) => <option key={k}>{k}</option>)}
-            </select>
-          </Field>
-        </div>
-        {sheetType === "Personalizado" && (
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-            <Field label="Ancho hoja (mm)"><input style={inp} type="number" value={customW || ""} onChange={(e) => setCustomW(+e.target.value)} /></Field>
-            <Field label="Alto hoja (mm)"><input style={inp} type="number" value={customH || ""} onChange={(e) => setCustomH(+e.target.value)} /></Field>
+      {/* Datos del pedido — read-only en demo, editable en dashboard */}
+      {isDemo ? (
+        <section style={{ ...card, display: "flex", flexDirection: "column", gap: 12 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <span style={cardTitle}>Pedido</span>
+            <Link href="/demo/pliego" style={{ fontSize: 12, color: "#71717a", textDecoration: "none" }}>
+              ← Modificar en Pliego
+            </Link>
           </div>
-        )}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
-          <Field label="Ancho sticker (mm)"><input style={inp} type="number" value={stickerW || ""} onChange={(e) => setStickerW(+e.target.value)} min={5} /></Field>
-          <Field label="Alto sticker (mm)"><input style={inp} type="number" value={stickerH || ""} onChange={(e) => setStickerH(+e.target.value)} min={5} /></Field>
-          <Field label="Sangría (mm)"><input style={inp} type="number" value={bleed} onChange={(e) => setBleed(+e.target.value)} min={0} /></Field>
-        </div>
-      </section>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            {[
+              ["Hoja", sheetType],
+              ["Sticker", `${stickerW}×${stickerH}mm`],
+              ["Sangría", `${bleed}mm`],
+              ["Cantidad", `${qty} uds`],
+            ].map(([k, v]) => (
+              <div key={k} style={{ padding: "5px 11px", borderRadius: 20, fontSize: 12, background: "#18181c", border: "1px solid #2e2e38" }}>
+                {k}: <strong style={{ color: "#f97316" }}>{v}</strong>
+              </div>
+            ))}
+          </div>
+        </section>
+      ) : (
+        <section style={card}>
+          <span style={cardTitle}>Datos del pedido</span>
+          <Field label="Nombre (opcional)">
+            <input style={inp} value={name} onChange={(e) => setName(e.target.value)} placeholder="Ej: Stickers logo cliente X" />
+          </Field>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            <Field label="Cantidad de stickers">
+              <input style={inp} type="number" value={qty || ""} onChange={(e) => setQty(+e.target.value)} min={1} />
+            </Field>
+            <Field label="Tipo de hoja">
+              <select style={inp} value={sheetType} onChange={(e) => setSheetType(e.target.value as SheetType)}>
+                {SHEET_TYPES.map((k) => <option key={k}>{k}</option>)}
+              </select>
+            </Field>
+          </div>
+          {sheetType === "Personalizado" && (
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+              <Field label="Ancho hoja (mm)"><input style={inp} type="number" value={customW || ""} onChange={(e) => setCustomW(+e.target.value)} /></Field>
+              <Field label="Alto hoja (mm)"><input style={inp} type="number" value={customH || ""} onChange={(e) => setCustomH(+e.target.value)} /></Field>
+            </div>
+          )}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+            <Field label="Ancho sticker (mm)"><input style={inp} type="number" value={stickerW || ""} onChange={(e) => setStickerW(+e.target.value)} min={5} /></Field>
+            <Field label="Alto sticker (mm)"><input style={inp} type="number" value={stickerH || ""} onChange={(e) => setStickerH(+e.target.value)} min={5} /></Field>
+            <Field label="Sangría (mm)"><input style={inp} type="number" value={bleed} onChange={(e) => setBleed(+e.target.value)} min={0} /></Field>
+          </div>
+        </section>
+      )}
 
       {/* Resumen pliego */}
       {layout.perSheet > 0 ? (
