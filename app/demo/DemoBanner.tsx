@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useDemoUsage, DEMO_MAX_USES } from "@/lib/useDemoUsage";
+import { DEMO_MAX_USES, useDemoUsage } from "@/lib/useDemoUsage";
 
 export default function DemoBanner() {
-  const { usesLeft, limitReached } = useDemoUsage();
+  const { uses, limitReached } = useDemoUsage();
 
   if (limitReached) {
     return (
@@ -20,9 +20,11 @@ export default function DemoBanner() {
   return (
     <div style={{ background: "#f97316", color: "#fff", textAlign: "center", padding: "8px 16px", fontSize: 13, fontWeight: 500 }}>
       Modo demo ·{" "}
-      <span style={{ opacity: 0.85 }}>
-        {usesLeft} de {DEMO_MAX_USES} cálculos restantes
-      </span>
+      {uses === 0 ? (
+        <span style={{ opacity: 0.85 }}>{DEMO_MAX_USES} presupuestos gratuitos disponibles</span>
+      ) : (
+        <span style={{ opacity: 0.85 }}>{uses}/{DEMO_MAX_USES} presupuestos utilizados</span>
+      )}
       {" · "}
       <Link href="/sign-up" style={{ color: "#fff", fontWeight: 700, textDecoration: "underline" }}>
         Crear cuenta gratis →

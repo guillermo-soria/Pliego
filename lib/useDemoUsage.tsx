@@ -18,12 +18,14 @@ import {
 export { DEMO_MAX_USES };
 
 type DemoUsageCtx = {
+  uses: number;
   usesLeft: number;
   limitReached: boolean;
   increment: () => void;
 };
 
 export const DemoUsageContext = createContext<DemoUsageCtx>({
+  uses: 0,
   usesLeft: DEMO_MAX_USES,
   limitReached: false,
   increment: () => {},
@@ -48,6 +50,7 @@ export function DemoUsageProvider({ children }: { children: React.ReactNode }) {
   return (
     <DemoUsageContext.Provider
       value={{
+        uses,
         usesLeft: getRemainingUses(uses),
         limitReached: hasReachedLimit(uses),
         increment,
