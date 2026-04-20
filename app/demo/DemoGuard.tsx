@@ -1,13 +1,13 @@
 "use client";
 
-import { useDemoUsage } from "@/lib/useDemoUsage";
+import { DEMO_MAX_USES, useDemoUsage } from "@/lib/useDemoUsage";
 import DemoLimitModal from "./DemoLimitModal";
 
 export default function DemoGuard({ children }: { children: React.ReactNode }) {
-  const { limitReached } = useDemoUsage();
+  const { uses } = useDemoUsage();
   return (
     <>
-      {limitReached && <DemoLimitModal />}
+      {uses > DEMO_MAX_USES && <DemoLimitModal />}
       {children}
     </>
   );

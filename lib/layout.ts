@@ -5,8 +5,9 @@
  */
 
 export const SHEET_SIZES = {
-  A4:     { w: 210, h: 297 },
   A3:     { w: 297, h: 420 },
+  A4:     { w: 210, h: 297 },
+  A5:     { w: 148, h: 210 },
   Letter: { w: 216, h: 279 },
 } as const;
 

@@ -17,11 +17,11 @@ describe("DEMO_MATERIALS", () => {
     }
   });
 
-  it("precios coinciden con los materiales cargados en DB", () => {
+  it("precios son los definidos para materiales A5", () => {
     const [vinilo, foto, laminado] = DEMO_MATERIALS;
-    expect(vinilo.price).toBe(20);
-    expect(foto.price).toBe(7);
-    expect(laminado.price).toBe(11);
+    expect(vinilo.price).toBe(10);
+    expect(foto.price).toBe(4);
+    expect(laminado.price).toBe(6);
   });
 });
 
@@ -61,6 +61,12 @@ describe("DEMO_QUOTES", () => {
     for (const q of DEMO_QUOTES) {
       const expected = Math.ceil(q.qty / q.perSheet);
       expect(q.sheetsNeeded).toBe(expected);
+    }
+  });
+
+  it("todos usan hoja A5", () => {
+    for (const q of DEMO_QUOTES) {
+      expect(q.sheetType).toBe("A5");
     }
   });
 });
