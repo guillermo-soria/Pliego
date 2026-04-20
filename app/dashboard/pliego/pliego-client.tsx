@@ -1,5 +1,6 @@
 "use client";
 
+import DemoLimitModal from "@/app/demo/DemoLimitModal";
 import {
   SHEET_SIZES,
   calculateLayout,
@@ -12,29 +13,32 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const SHEET_TYPES = [...Object.keys(SHEET_SIZES), "Personalizado"] as SheetType[];
+const DEMO_SHEET: SheetType = "A5";
+const DEMO_QTY_MAX = 500;
 
 export default function PliegoClient({ isDemo }: { isDemo?: boolean }) {
   const router = useRouter();
-  const [sheetType, setSheetType]   = useState<SheetType>("A4");
+  const [sheetType, setSheetType]   = useState<SheetType>(isDemo ? DEMO_SHEET : "A4");
   const [customW, setCustomW]       = useState(300);
   const [customH, setCustomH]       = useState(400);
   const [stickerW, setStickerW]     = useState(50);
   const [stickerH, setStickerH]     = useState(50);
-  const [bleed, setBleed]           = useState(2);
+  const [bleed, setBleed]           = useState(0);
   const [qty, setQty]               = useState(100);
 
   const { uses, limitReached } = useDemoUsage();
+  const [showLimitModal, setShowLimitModal] = useState(false);
 
-  const sheet = getSheetDimensions(sheetType, customW, customH);
+  const sheet = getSheetDimensions(isDemo ? DEMO_SHEET : sheetType, customW, customH);
   const eff   = effectiveSize(stickerW, stickerH, bleed);
   const result = calculateLayout(sheet, eff.w, eff.h, qty);
 
   const presupuestoPath = isDemo ? "/demo/presupuesto" : "/dashboard/presupuesto";
 
   function handlePresupuesto() {
-    if (isDemo && limitReached) return;
+    if (isDemo && limitReached) { setShowLimitModal(true); return; }
     const params = new URLSearchParams({
-      sheetType,
+      sheetType: isDemo ? DEMO_SHEET : sheetType,
       customW: String(customW),
       customH: String(customH),
       stickerW: String(stickerW),
@@ -47,6 +51,7 @@ export default function PliegoClient({ isDemo }: { isDemo?: boolean }) {
 
   return (
     <div>
+      {showLimitModal && <DemoLimitModal />}
       <h1 style={{ fontWeight: 700, fontSize: 22, marginBottom: 4 }}>Armado en Pliego</h1>
       <p style={{ color: "#71717a", fontSize: 13, marginBottom: 24 }}>
         Calculá cuántos stickers entran por hoja
@@ -60,32 +65,60 @@ export default function PliegoClient({ isDemo }: { isDemo?: boolean }) {
       {/* Tipo de hoja */}
       <section style={card}>
         <label style={cardTitle}>Tipo de hoja</label>
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 }}>
-          {SHEET_TYPES.map((k) => (
-            <button key={k} onClick={() => setSheetType(k)} style={sheetBtn(sheetType === k)}>
-              {k}{SHEET_SIZES[k as keyof typeof SHEET_SIZES]
-                ? ` (${SHEET_SIZES[k as keyof typeof SHEET_SIZES].w}×${SHEET_SIZES[k as keyof typeof SHEET_SIZES].h})`
-                : ""}
-            </button>
-          ))}
-        </div>
-        {sheetType === "Personalizado" && (
-          <div style={row2}>
-            <Field label="Ancho hoja (mm)"><input style={input} type="number" value={customW || ""} onChange={(e) => setCustomW(+e.target.value)} /></Field>
-            <Field label="Alto hoja (mm)"><input style={input} type="number" value={customH || ""} onChange={(e) => setCustomH(+e.target.value)} /></Field>
+        {isDemo ? (
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            <div style={sheetBtn(true)}>A5 (148×210)</div>
+            <span style={{ fontSize: 12, color: "#52525b" }}>
+              Registrate para usar cualquier formato
+            </span>
           </div>
+        ) : (
+          <>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 }}>
+              {SHEET_TYPES.map((k) => (
+                <button key={k} onClick={() => setSheetType(k)} style={sheetBtn(sheetType === k)}>
+                  {k}{SHEET_SIZES[k as keyof typeof SHEET_SIZES]
+                    ? ` (${SHEET_SIZES[k as keyof typeof SHEET_SIZES].w}×${SHEET_SIZES[k as keyof typeof SHEET_SIZES].h})`
+                    : ""}
+                </button>
+              ))}
+            </div>
+            {sheetType === "Personalizado" && (
+              <div style={row2}>
+                <Field label="Ancho hoja (mm)"><input style={input} type="number" value={customW || ""} onChange={(e) => setCustomW(+e.target.value)} /></Field>
+                <Field label="Alto hoja (mm)"><input style={input} type="number" value={customH || ""} onChange={(e) => setCustomH(+e.target.value)} /></Field>
+              </div>
+            )}
+          </>
         )}
       </section>
 
       {/* Sticker */}
       <section style={card}>
         <label style={cardTitle}>Medida del sticker</label>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 12 }}>
-          <Field label="Ancho (mm)"><input style={input} type="number" value={stickerW || ""} onChange={(e) => setStickerW(+e.target.value)} min={5} /></Field>
-          <Field label="Alto (mm)"><input style={input} type="number" value={stickerH || ""} onChange={(e) => setStickerH(+e.target.value)} min={5} /></Field>
-          <Field label="Sangría (mm)"><input style={input} type="number" value={bleed} onChange={(e) => setBleed(+e.target.value)} min={0} /></Field>
-          <Field label="Cantidad pedido"><input style={input} type="number" value={qty || ""} onChange={(e) => setQty(+e.target.value)} min={1} /></Field>
-        </div>
+        {isDemo ? (
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+            <Field label="Ancho (mm)"><input style={input} type="number" value={stickerW || ""} onChange={(e) => setStickerW(+e.target.value)} min={5} /></Field>
+            <Field label="Alto (mm)"><input style={input} type="number" value={stickerH || ""} onChange={(e) => setStickerH(+e.target.value)} min={5} /></Field>
+            <Field label="Cantidad pedido">
+              <input
+                style={input}
+                type="number"
+                value={qty || ""}
+                onChange={(e) => setQty(Math.min(+e.target.value, DEMO_QTY_MAX))}
+                min={1}
+                max={DEMO_QTY_MAX}
+              />
+            </Field>
+          </div>
+        ) : (
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 12 }}>
+            <Field label="Ancho (mm)"><input style={input} type="number" value={stickerW || ""} onChange={(e) => setStickerW(+e.target.value)} min={5} /></Field>
+            <Field label="Alto (mm)"><input style={input} type="number" value={stickerH || ""} onChange={(e) => setStickerH(+e.target.value)} min={5} /></Field>
+            <Field label="Sangría (mm)"><input style={input} type="number" value={bleed} onChange={(e) => setBleed(+e.target.value)} min={0} /></Field>
+            <Field label="Cantidad pedido"><input style={input} type="number" value={qty || ""} onChange={(e) => setQty(+e.target.value)} min={1} /></Field>
+          </div>
+        )}
       </section>
 
       {/* Resultado */}
@@ -94,7 +127,7 @@ export default function PliegoClient({ isDemo }: { isDemo?: boolean }) {
           <label style={cardTitle}>Resultado</label>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 }}>
             {[
-              ["Hoja", sheetType],
+              ["Hoja", isDemo ? DEMO_SHEET : sheetType],
               ["Medida efectiva", `${eff.w}×${eff.h}mm`],
               ["Grid", `${result.cols}×${result.rows}`],
               ["Aprovechamiento", `${result.usagePercent}%`],
@@ -134,7 +167,7 @@ export default function PliegoClient({ isDemo }: { isDemo?: boolean }) {
       ) : (
         stickerW > 0 && stickerH > 0 && (
           <section style={{ ...card, textAlign: "center", color: "#f87171", padding: 32 }}>
-            ⚠ El sticker ({eff.w}×{eff.h}mm) no entra en la hoja {sheetType} ({sheet.w}×{sheet.h}mm)
+            ⚠ El sticker ({eff.w}×{eff.h}mm) no entra en la hoja {isDemo ? DEMO_SHEET : sheetType} ({sheet.w}×{sheet.h}mm)
           </section>
         )
       )}

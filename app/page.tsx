@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import AnimatedWord from "./AnimatedWord";
 
 export const metadata: Metadata = {
   title: "Pliego — Presupuestos para imprenta",
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
   },
 };
 
-const FEATURES = [
+const FEATURES: { icon: string; title: string; desc: string; soon?: boolean }[] = [
   {
     icon: "▦",
     title: "Armado en pliego",
@@ -28,6 +29,12 @@ const FEATURES = [
     icon: "↻",
     title: "Historial de cotizaciones",
     desc: "Guardá cada presupuesto con un snapshot de los precios. Revisá y eliminá cotizaciones anteriores cuando quieras.",
+  },
+  {
+    icon: "◈",
+    title: "Más funcionalidades en camino",
+    desc: "Estamos desarrollando herramientas pensadas para cada rubro: remeras, muebles, servicios y más. Cada negocio tiene su lógica — y vamos a cubrirla.",
+    soon: true,
   },
 ];
 
@@ -65,8 +72,8 @@ export default function HomePage() {
           Demo disponible — sin registro
         </div>
         <h1 style={{ fontSize: "clamp(36px, 6vw, 64px)", fontWeight: 800, lineHeight: 1.1, letterSpacing: -2, marginBottom: 20 }}>
-          Presupuestos de stickers{" "}
-          <span style={{ color: "#f97316" }}>en segundos</span>
+          Presupuestos de <AnimatedWord />{" "}
+          <span style={{ color: "#f1f0ed" }}>en segundos</span>
         </h1>
         <p style={{ fontSize: 18, color: "#71717a", maxWidth: 560, margin: "0 auto 40px", lineHeight: 1.6 }}>
           Calculá cuántos stickers entran en una hoja, armá cotizaciones con tus materiales y guardá el historial. Sin hojas de cálculo.
@@ -81,10 +88,17 @@ export default function HomePage() {
       <section style={{ maxWidth: 920, margin: "0 auto", padding: "0 16px 80px" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16 }}>
           {FEATURES.map((f) => (
-            <div key={f.title} style={featureCard}>
-              <div style={{ fontSize: 28, marginBottom: 14, color: "#f97316", fontFamily: "monospace" }}>{f.icon}</div>
-              <h2 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8 }}>{f.title}</h2>
-              <p style={{ fontSize: 14, color: "#71717a", lineHeight: 1.6, margin: 0 }}>{f.desc}</p>
+            <div key={f.title} style={{ ...featureCard, ...(f.soon ? { borderColor: "#3f3f46", borderStyle: "dashed" } : {}) }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+                <span style={{ fontSize: 28, color: f.soon ? "#52525b" : "#f97316", fontFamily: "monospace" }}>{f.icon}</span>
+                {f.soon && (
+                  <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase", color: "#f97316", border: "1px solid #f97316", borderRadius: 4, padding: "2px 6px", fontFamily: "monospace" }}>
+                    Próximamente
+                  </span>
+                )}
+              </div>
+              <h2 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8, color: f.soon ? "#71717a" : "#f1f0ed" }}>{f.title}</h2>
+              <p style={{ fontSize: 14, color: "#52525b", lineHeight: 1.6, margin: 0 }}>{f.desc}</p>
             </div>
           ))}
         </div>
