@@ -1,4 +1,4 @@
-export const DEMO_MAX_USES = 10;
+export const DEMO_MAX_USES = 3;
 export const DEMO_STORAGE_KEY = "pliego_demo_uses";
 
 export function parseUses(raw: string | null): number {

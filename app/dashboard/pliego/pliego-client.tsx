@@ -9,7 +9,7 @@ import {
 } from "@/lib/layout";
 import { useDemoUsage } from "@/lib/useDemoUsage";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 const SHEET_TYPES = [...Object.keys(SHEET_SIZES), "Personalizado"] as SheetType[];
 
@@ -23,18 +23,7 @@ export default function PliegoClient({ isDemo }: { isDemo?: boolean }) {
   const [bleed, setBleed]           = useState(2);
   const [qty, setQty]               = useState(100);
 
-  const { usesLeft, limitReached, increment } = useDemoUsage();
-
-  // Track parameter changes in demo mode (debounced 1.5s)
-  const mounted = useRef(false);
-  useEffect(() => {
-    if (!isDemo) return;
-    if (!mounted.current) { mounted.current = true; return; }
-    if (limitReached) return;
-    const timer = setTimeout(increment, 1500);
-    return () => clearTimeout(timer);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sheetType, customW, customH, stickerW, stickerH, bleed, qty]);
+  const { uses, limitReached } = useDemoUsage();
 
   const sheet = getSheetDimensions(sheetType, customW, customH);
   const eff   = effectiveSize(stickerW, stickerH, bleed);
@@ -42,14 +31,28 @@ export default function PliegoClient({ isDemo }: { isDemo?: boolean }) {
 
   const presupuestoPath = isDemo ? "/demo/presupuesto" : "/dashboard/presupuesto";
 
+  function handlePresupuesto() {
+    if (isDemo && limitReached) return;
+    const params = new URLSearchParams({
+      sheetType,
+      customW: String(customW),
+      customH: String(customH),
+      stickerW: String(stickerW),
+      stickerH: String(stickerH),
+      bleed: String(bleed),
+      qty: String(qty),
+    });
+    router.push(`${presupuestoPath}?${params}`);
+  }
+
   return (
     <div>
       <h1 style={{ fontWeight: 700, fontSize: 22, marginBottom: 4 }}>Armado en Pliego</h1>
       <p style={{ color: "#71717a", fontSize: 13, marginBottom: 24 }}>
         Calculá cuántos stickers entran por hoja
-        {isDemo && !limitReached && (
-          <span style={{ marginLeft: 12, color: "#f97316", fontFamily: "monospace", fontSize: 12 }}>
-            {usesLeft} cálculos restantes
+        {isDemo && uses > 0 && !limitReached && (
+          <span style={{ marginLeft: 10, color: "#f97316", fontFamily: "monospace", fontSize: 12 }}>
+            · {uses}/3 presupuestos generados
           </span>
         )}
       </p>
@@ -116,7 +119,6 @@ export default function PliegoClient({ isDemo }: { isDemo?: boolean }) {
               hojas para {qty} stickers
             </div>
           </div>
-          {/* Visual grid */}
           <SheetVisual
             cols={result.cols}
             rows={result.rows}
@@ -125,21 +127,7 @@ export default function PliegoClient({ isDemo }: { isDemo?: boolean }) {
             cellW={eff.w}
             cellH={eff.h}
           />
-          <button
-            onClick={() => {
-              const params = new URLSearchParams({
-                sheetType,
-                customW: String(customW),
-                customH: String(customH),
-                stickerW: String(stickerW),
-                stickerH: String(stickerH),
-                bleed: String(bleed),
-                qty: String(qty),
-              });
-              router.push(`${presupuestoPath}?${params}`);
-            }}
-            style={btnPresupuesto}
-          >
+          <button onClick={handlePresupuesto} style={btnPresupuesto}>
             Pasar a Presupuesto →
           </button>
         </section>
