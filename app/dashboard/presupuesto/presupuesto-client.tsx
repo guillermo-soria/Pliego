@@ -93,14 +93,14 @@ export default function PresupuestoClient({ materials, isDemo }: { materials: Ma
   return (
     <div>
       <h1 style={{ fontWeight: 700, fontSize: 22, marginBottom: 4 }}>Nuevo Presupuesto</h1>
-      <p style={{ color: "#71717a", fontSize: 13, marginBottom: 24 }}>Calculá costo y precio de venta</p>
+      <p style={{ color: "#6a7880", fontSize: 13, marginBottom: 24 }}>Calculá costo y precio de venta</p>
 
       {/* Datos del pedido — read-only en demo, editable en dashboard */}
       {isDemo ? (
         <section style={{ ...card, display: "flex", flexDirection: "column", gap: 12 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <span style={cardTitle}>Pedido</span>
-            <Link href="/demo/pliego" style={{ fontSize: 12, color: "#71717a", textDecoration: "none" }}>
+            <Link href="/demo/pliego" style={{ fontSize: 12, color: "#6a7880", textDecoration: "none" }}>
               ← Modificar en Pliego
             </Link>
           </div>
@@ -111,8 +111,8 @@ export default function PresupuestoClient({ materials, isDemo }: { materials: Ma
               ["Sangría", `${bleed}mm`],
               ["Cantidad", `${qty} uds`],
             ].map(([k, v]) => (
-              <div key={k} style={{ padding: "5px 11px", borderRadius: 20, fontSize: 12, background: "#18181c", border: "1px solid #2e2e38" }}>
-                {k}: <strong style={{ color: "#f97316" }}>{v}</strong>
+              <div key={k} style={{ padding: "5px 11px", borderRadius: 20, fontSize: 12, background: "#f5f0e6", border: "1px solid #e8e0d0" }}>
+                {k}: <strong style={{ color: "#e8952a" }}>{v}</strong>
               </div>
             ))}
           </div>
@@ -151,13 +151,13 @@ export default function PresupuestoClient({ materials, isDemo }: { materials: Ma
       {layout.perSheet > 0 ? (
         <section style={{ ...card, display: "flex", gap: 0, padding: 0, overflow: "hidden" }}>
           {[
-            { label: "Por hoja", value: layout.perSheet, color: "#f97316" },
-            { label: "Hojas necesarias", value: layout.sheetsNeeded, color: "#f1f0ed" },
-            { label: "Para", value: `${qty} uds`, color: "#71717a" },
+            { label: "Por hoja", value: layout.perSheet, color: "#e8952a" },
+            { label: "Hojas necesarias", value: layout.sheetsNeeded, color: "#1a2428" },
+            { label: "Para", value: `${qty} uds`, color: "#6a7880" },
           ].map((item, i) => (
-            <div key={i} style={{ flex: 1, padding: "16px 20px", borderRight: i < 2 ? "1px solid #2e2e38" : "none", textAlign: "center" }}>
+            <div key={i} style={{ flex: 1, padding: "16px 20px", borderRight: i < 2 ? "1px solid #e8e0d0" : "none", textAlign: "center" }}>
               <div style={{ fontSize: 28, fontFamily: "monospace", fontWeight: 500, color: item.color }}>{item.value}</div>
-              <div style={{ fontSize: 12, color: "#71717a", marginTop: 4 }}>{item.label}</div>
+              <div style={{ fontSize: 12, color: "#6a7880", marginTop: 4 }}>{item.label}</div>
             </div>
           ))}
         </section>
@@ -169,7 +169,7 @@ export default function PresupuestoClient({ materials, isDemo }: { materials: Ma
       <section style={card}>
         <span style={cardTitle}>Materiales</span>
         {materials.length === 0 && (
-          <div style={{ color: "#71717a", textAlign: "center", padding: 20 }}>
+          <div style={{ color: "#6a7880", textAlign: "center", padding: 20 }}>
             Primero cargá materiales en la sección Materiales
           </div>
         )}
@@ -177,11 +177,11 @@ export default function PresupuestoClient({ materials, isDemo }: { materials: Ma
           const s = sel[m.id];
           const sub = (s?.qty ?? 0) * m.price;
           return (
-            <div key={m.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "9px 12px", background: "#18181c", border: "1px solid #2e2e38", borderRadius: 8, marginBottom: 6 }}>
-              <input type="checkbox" checked={s?.selected ?? false} onChange={() => toggle(m.id)} style={{ accentColor: "#f97316", width: 16, height: 16, cursor: "pointer", flexShrink: 0 }} />
+            <div key={m.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "9px 12px", background: "#f5f0e6", border: "1px solid #e8e0d0", borderRadius: 8, marginBottom: 6 }}>
+              <input type="checkbox" checked={s?.selected ?? false} onChange={() => toggle(m.id)} style={{ accentColor: "#e8952a", width: 16, height: 16, cursor: "pointer", flexShrink: 0 }} />
               <div style={{ width: 8, height: 8, borderRadius: "50%", background: m.color, flexShrink: 0 }} />
               <div style={{ flex: 1, fontSize: 13 }}>
-                {m.name} <span style={{ color: "#71717a", fontSize: 11 }}>(${m.price}/{m.unit})</span>
+                {m.name} <span style={{ color: "#6a7880", fontSize: 11 }}>(${m.price}/{m.unit})</span>
               </div>
               <input
                 type="number"
@@ -190,7 +190,7 @@ export default function PresupuestoClient({ materials, isDemo }: { materials: Ma
                 disabled={!s?.selected}
                 style={{ ...inp, width: 70, textAlign: "center", padding: "6px 8px", fontSize: 13, opacity: s?.selected ? 1 : 0.4 }}
               />
-              <div style={{ fontFamily: "monospace", fontSize: 13, color: s?.selected ? "#f97316" : "#71717a", width: 80, textAlign: "right" }}>
+              <div style={{ fontFamily: "monospace", fontSize: 13, color: s?.selected ? "#e8952a" : "#6a7880", width: 80, textAlign: "right" }}>
                 {s?.selected ? `$${sub.toFixed(2)}` : "—"}
               </div>
             </div>
@@ -202,32 +202,32 @@ export default function PresupuestoClient({ materials, isDemo }: { materials: Ma
       <section style={card}>
         <span style={cardTitle}>Ganancia deseada</span>
         <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 20 }}>
-          <input type="range" min={0} max={200} value={markup} onChange={(e) => setMarkup(+e.target.value)} style={{ flex: 1, accentColor: "#f97316" }} />
-          <div style={{ fontFamily: "monospace", fontSize: 22, color: "#f97316", minWidth: 55, textAlign: "right" }}>{markup}%</div>
+          <input type="range" min={0} max={200} value={markup} onChange={(e) => setMarkup(+e.target.value)} style={{ flex: 1, accentColor: "#e8952a" }} />
+          <div style={{ fontFamily: "monospace", fontSize: 22, color: "#e8952a", minWidth: 55, textAlign: "right" }}>{markup}%</div>
         </div>
-        <div style={{ borderTop: "1px solid #2e2e38", paddingTop: 16 }}>
+        <div style={{ borderTop: "1px solid #e8e0d0", paddingTop: 16 }}>
           {[
             { label: "Costo materiales", value: `$${pricing.materialCost.toFixed(2)}` },
             { label: `Ganancia (${markup}%)`, value: `$${pricing.markupAmount.toFixed(2)}` },
           ].map((row) => (
             <div key={row.label} style={{ display: "flex", justifyContent: "space-between", padding: "5px 0", fontSize: 14 }}>
-              <span style={{ color: "#71717a" }}>{row.label}</span>
+              <span style={{ color: "#6a7880" }}>{row.label}</span>
               <span style={{ fontFamily: "monospace" }}>{row.value}</span>
             </div>
           ))}
-          <div style={{ display: "flex", justifyContent: "space-between", padding: "12px 0 4px", borderTop: "1px solid #2e2e38", marginTop: 6, fontWeight: 700, fontSize: 16 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", padding: "12px 0 4px", borderTop: "1px solid #e8e0d0", marginTop: 6, fontWeight: 700, fontSize: 16 }}>
             <span>Precio total al cliente</span>
-            <span style={{ fontFamily: "monospace", color: "#f97316" }}>${pricing.totalPrice.toFixed(2)}</span>
+            <span style={{ fontFamily: "monospace", color: "#e8952a" }}>${pricing.totalPrice.toFixed(2)}</span>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", fontSize: 14 }}>
-            <span style={{ color: "#71717a" }}>Precio por unidad</span>
-            <span style={{ fontFamily: "monospace", color: "#4ade80" }}>${pricing.pricePerUnit.toFixed(2)}</span>
+            <span style={{ color: "#6a7880" }}>Precio por unidad</span>
+            <span style={{ fontFamily: "monospace", color: "#1a6b7c" }}>${pricing.pricePerUnit.toFixed(2)}</span>
           </div>
         </div>
         <button
           onClick={handleSave}
           disabled={saving || saved || layout.perSheet === 0}
-          style={{ ...btnPrimary, width: "100%", justifyContent: "center", padding: 14, marginTop: 16, fontSize: 14, background: saved ? "#4ade80" : "#f97316", color: saved ? "#0f0f11" : "#fff", opacity: layout.perSheet === 0 ? 0.5 : 1 }}
+          style={{ ...btnPrimary, width: "100%", justifyContent: "center", padding: 14, marginTop: 16, fontSize: 14, background: saved ? "#1a6b7c" : "#e8952a", color: saved ? "white" : "#fff", opacity: layout.perSheet === 0 ? 0.5 : 1 }}
         >
           {isDemo ? "Crear cuenta para guardar →" : saved ? "✓ ¡Guardado! Redirigiendo…" : saving ? "Guardando…" : "✓ Guardar presupuesto"}
         </button>
@@ -239,13 +239,13 @@ export default function PresupuestoClient({ materials, isDemo }: { materials: Ma
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div style={{ marginBottom: 14 }}>
-      <label style={{ display: "block", fontSize: 12, color: "#71717a", marginBottom: 6, fontWeight: 500 }}>{label}</label>
+      <label style={{ display: "block", fontSize: 12, color: "#6a7880", marginBottom: 6, fontWeight: 500 }}>{label}</label>
       {children}
     </div>
   );
 }
 
-const card: React.CSSProperties      = { background: "#1e1e24", border: "1px solid #2e2e38", borderRadius: 14, padding: 20, marginBottom: 16 };
-const cardTitle: React.CSSProperties = { display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "#71717a", marginBottom: 16, fontFamily: "monospace" };
-const inp: React.CSSProperties       = { width: "100%", padding: "9px 12px", background: "#18181c", border: "1px solid #2e2e38", borderRadius: 8, color: "#f1f0ed", fontSize: 14, outline: "none" };
-const btnPrimary: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 7, padding: "10px 18px", borderRadius: 8, border: "none", background: "#f97316", color: "#fff", fontSize: 13, fontWeight: 600, cursor: "pointer" };
+const card: React.CSSProperties      = { background: "white", border: "1px solid #e8e0d0", borderRadius: 14, padding: 20, marginBottom: 16 };
+const cardTitle: React.CSSProperties = { display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "#6a7880", marginBottom: 16 };
+const inp: React.CSSProperties       = { width: "100%", padding: "9px 12px", background: "#f5f0e6", border: "1px solid #d0c8b0", borderRadius: 8, color: "#1a2428", fontSize: 14, outline: "none" };
+const btnPrimary: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 7, padding: "10px 18px", borderRadius: 8, border: "none", background: "#e8952a", color: "#fff", fontSize: 13, fontWeight: 600, cursor: "pointer" };
