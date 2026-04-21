@@ -8,7 +8,7 @@ const CATEGORIES = ["Sustrato", "Laminado", "Impresión", "Corte", "Otro"];
 const UNITS      = ["hoja", "m²", "unidad"];
 
 type Form = { name: string; category: string; unit: string; price: string; color: string };
-const EMPTY_FORM: Form = { name: "", category: "Sustrato", unit: "hoja", price: "", color: "#f97316" };
+const EMPTY_FORM: Form = { name: "", category: "Sustrato", unit: "hoja", price: "", color: "#e8952a" };
 
 export default function MaterialesClient({ initialMaterials, isDemo }: { initialMaterials: Material[]; isDemo?: boolean }) {
   const router   = useRouter();
@@ -53,7 +53,7 @@ export default function MaterialesClient({ initialMaterials, isDemo }: { initial
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
         <div>
           <h1 style={{ fontWeight: 700, fontSize: 22 }}>Materiales</h1>
-          <p style={{ color: "#71717a", fontSize: 13, marginTop: 2 }}>{items.length} materiales cargados</p>
+          <p style={{ color: "#6a7880", fontSize: 13, marginTop: 2 }}>{items.length} materiales cargados</p>
         </div>
         {!isDemo && <button onClick={openNew} style={btnPrimary}>+ Agregar</button>}
       </div>
@@ -66,9 +66,9 @@ export default function MaterialesClient({ initialMaterials, isDemo }: { initial
               <div style={{ width: 10, height: 10, borderRadius: "50%", background: m.color, flexShrink: 0 }} />
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 14, fontWeight: 500 }}>{m.name}</div>
-                <div style={{ fontSize: 11, color: "#71717a", fontFamily: "monospace" }}>por {m.unit}</div>
+                <div style={{ fontSize: 11, color: "#6a7880", fontFamily: "monospace" }}>por {m.unit}</div>
               </div>
-              <div style={{ fontFamily: "monospace", fontSize: 15, color: "#f97316", marginRight: 8 }}>${m.price.toFixed(2)}</div>
+              <div style={{ fontFamily: "monospace", fontSize: 15, color: "#e8952a", marginRight: 8 }}>${m.price.toFixed(2)}</div>
               {!isDemo && <button onClick={() => openEdit(m)} style={iconBtn}>✏️</button>}
               {!isDemo && <button onClick={() => handleDelete(m.id)} style={iconBtn}>🗑</button>}
             </div>
@@ -77,7 +77,7 @@ export default function MaterialesClient({ initialMaterials, isDemo }: { initial
       ))}
 
       {items.length === 0 && (
-        <div style={{ textAlign: "center", padding: 60, color: "#71717a" }}>
+        <div style={{ textAlign: "center", padding: 60, color: "#6a7880" }}>
           No hay materiales. ¡Agregá el primero!
         </div>
       )}
@@ -114,7 +114,7 @@ export default function MaterialesClient({ initialMaterials, isDemo }: { initial
               </Field>
             </div>
             <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
-              <button onClick={() => setModal(null)} style={{ ...btnPrimary, background: "transparent", border: "1px solid #2e2e38", color: "#71717a", flex: 1 }}>Cancelar</button>
+              <button onClick={() => setModal(null)} style={{ ...btnPrimary, background: "transparent", border: "1px solid #e8e0d0", color: "#6a7880", flex: 1 }}>Cancelar</button>
               <button onClick={handleSave} disabled={loading} style={{ ...btnPrimary, flex: 2, justifyContent: "center" }}>
                 {loading ? "Guardando…" : "✓ Guardar"}
               </button>
@@ -129,17 +129,17 @@ export default function MaterialesClient({ initialMaterials, isDemo }: { initial
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div style={{ marginBottom: 14 }}>
-      <label style={{ display: "block", fontSize: 12, color: "#71717a", marginBottom: 6, fontWeight: 500 }}>{label}</label>
+      <label style={{ display: "block", fontSize: 12, color: "#6a7880", marginBottom: 6, fontWeight: 500 }}>{label}</label>
       {children}
     </div>
   );
 }
 
-const card: React.CSSProperties       = { background: "#1e1e24", border: "1px solid #2e2e38", borderRadius: 14, padding: 20, marginBottom: 16 };
-const cardTitle: React.CSSProperties  = { display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "#71717a", marginBottom: 14, fontFamily: "monospace" };
-const matRow: React.CSSProperties     = { display: "flex", alignItems: "center", gap: 12, padding: "10px 0", borderBottom: "1px solid #2e2e38" };
-const iconBtn: React.CSSProperties    = { background: "none", border: "none", cursor: "pointer", padding: "4px 8px", borderRadius: 6, color: "#71717a", fontSize: 14 };
-const btnPrimary: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 7, padding: "10px 18px", borderRadius: 8, border: "none", background: "#f97316", color: "#fff", fontSize: 13, fontWeight: 600, cursor: "pointer" };
-const inp: React.CSSProperties        = { width: "100%", padding: "9px 12px", background: "#18181c", border: "1px solid #2e2e38", borderRadius: 8, color: "#f1f0ed", fontSize: 14, outline: "none" };
-const overlay: React.CSSProperties    = { position: "fixed", inset: 0, background: "rgba(0,0,0,.7)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100, padding: 16 };
-const modalBox: React.CSSProperties   = { background: "#1e1e24", border: "1px solid #2e2e38", borderRadius: 16, padding: 24, width: "100%", maxWidth: 420 };
+const card: React.CSSProperties       = { background: "white", border: "1px solid #e8e0d0", borderRadius: 14, padding: 20, marginBottom: 16 };
+const cardTitle: React.CSSProperties  = { display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px", textTransform: "uppercase", color: "#6a7880", marginBottom: 14, };
+const matRow: React.CSSProperties     = { display: "flex", alignItems: "center", gap: 12, padding: "10px 0", borderBottom: "1px solid #e8e0d0" };
+const iconBtn: React.CSSProperties    = { background: "none", border: "none", cursor: "pointer", padding: "4px 8px", borderRadius: 6, color: "#6a7880", fontSize: 14 };
+const btnPrimary: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 7, padding: "10px 18px", borderRadius: 8, border: "none", background: "#e8952a", color: "#fff", fontSize: 13, fontWeight: 600, cursor: "pointer" };
+const inp: React.CSSProperties        = { width: "100%", padding: "9px 12px", background: "#f5f0e6", border: "1px solid #e8e0d0", borderRadius: 8, color: "#1a2428", fontSize: 14, outline: "none" };
+const overlay: React.CSSProperties    = { position: "fixed", inset: 0, background: "rgba(26,36,40,0.8)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 100, padding: 16 };
+const modalBox: React.CSSProperties   = { background: "white", border: "1px solid #e8e0d0", borderRadius: 16, padding: 24, width: "100%", maxWidth: 420, boxShadow: "0 24px 80px rgba(26,36,40,0.15)" };

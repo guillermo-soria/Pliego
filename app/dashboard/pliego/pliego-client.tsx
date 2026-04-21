@@ -53,10 +53,10 @@ export default function PliegoClient({ isDemo }: { isDemo?: boolean }) {
     <div>
       {showLimitModal && <DemoLimitModal />}
       <h1 style={{ fontWeight: 700, fontSize: 22, marginBottom: 4 }}>Armado en Pliego</h1>
-      <p style={{ color: "#71717a", fontSize: 13, marginBottom: 24 }}>
+      <p style={{ color: "#6a7880", fontSize: 13, marginBottom: 24 }}>
         Calculá cuántos stickers entran por hoja
         {isDemo && uses > 0 && !limitReached && (
-          <span style={{ marginLeft: 10, color: "#f97316", fontFamily: "monospace", fontSize: 12 }}>
+          <span style={{ marginLeft: 10, color: "#e8952a", fontVariantNumeric: "tabular-nums", fontSize: 12 }}>
             · {uses}/3 presupuestos generados
           </span>
         )}
@@ -134,21 +134,21 @@ export default function PliegoClient({ isDemo }: { isDemo?: boolean }) {
               ...(result.rotated ? [["Orientación", "Rotado ↩"]] : []),
             ].map(([k, v]) => (
               <div key={k} style={pill}>
-                {k}: <strong style={{ color: "#f97316" }}>{v}</strong>
+                {k}: <strong style={{ color: "#e8952a" }}>{v}</strong>
               </div>
             ))}
           </div>
           <div style={bigResult}>
-            <div style={{ fontFamily: "monospace", fontSize: 48, fontWeight: 500, color: "#f97316", lineHeight: 1 }}>
+            <div style={{ fontVariantNumeric: "tabular-nums", fontSize: 48, fontWeight: 500, color: "#e8952a", lineHeight: 1 }}>
               {result.perSheet}
             </div>
-            <div style={{ fontSize: 13, color: "#71717a", marginTop: 6 }}>stickers por hoja</div>
+            <div style={{ fontSize: 13, color: "#6a7880", marginTop: 6 }}>stickers por hoja</div>
           </div>
-          <div style={{ ...bigResult, marginTop: 12, background: "rgba(74,222,128,.08)", borderColor: "rgba(74,222,128,.25)" }}>
-            <div style={{ fontFamily: "monospace", fontSize: 32, fontWeight: 500, color: "#4ade80", lineHeight: 1 }}>
+          <div style={{ ...bigResult, marginTop: 12, background: "rgba(26,107,124,0.08)", borderColor: "rgba(26,107,124,0.25)" }}>
+            <div style={{ fontVariantNumeric: "tabular-nums", fontSize: 32, fontWeight: 500, color: "#1a6b7c", lineHeight: 1 }}>
               {result.sheetsNeeded}
             </div>
-            <div style={{ fontSize: 13, color: "#71717a", marginTop: 6 }}>
+            <div style={{ fontSize: 13, color: "#6a7880", marginTop: 6 }}>
               hojas para {qty} stickers
             </div>
           </div>
@@ -187,15 +187,15 @@ function SheetVisual({ cols, rows, sheetW, sheetH, cellW, cellH }: {
   const ch = cellH * scale;
   return (
     <div style={{ marginTop: 16, display: "flex", justifyContent: "center" }}>
-      <div style={{ background: "#1e1e24", border: "1px solid #2e2e38", borderRadius: 10, padding: 16 }}>
+      <div style={{ background: "#f5f0e6", border: "1px solid #e8e0d0", borderRadius: 10, padding: 16 }}>
         <div style={{ position: "relative", width: sw, height: sh, background: "#fff", borderRadius: 2, overflow: "hidden" }}>
           <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, ${cw}px)`, gap: 1, position: "absolute", top: 0, left: 0 }}>
             {Array.from({ length: cols * rows }).map((_, i) => (
-              <div key={i} style={{ width: cw, height: ch, background: "#f97316", opacity: 0.65, borderRadius: 1 }} />
+              <div key={i} style={{ width: cw, height: ch, background: "#e8952a", opacity: 0.65, borderRadius: 1 }} />
             ))}
           </div>
         </div>
-        <div style={{ fontSize: 11, color: "#71717a", textAlign: "center", marginTop: 8, fontFamily: "monospace" }}>
+        <div style={{ fontSize: 11, color: "#6a7880", textAlign: "center", marginTop: 8, fontVariantNumeric: "tabular-nums" }}>
           {sheetW}×{sheetH}mm — {cols}×{rows} = {cols * rows} por hoja
         </div>
       </div>
@@ -207,39 +207,39 @@ function SheetVisual({ cols, rows, sheetW, sheetH, cellW, cellH }: {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div style={{ marginBottom: 0 }}>
-      <label style={{ display: "block", fontSize: 12, color: "#71717a", marginBottom: 6, fontWeight: 500 }}>{label}</label>
+      <label style={{ display: "block", fontSize: 12, color: "#6a7880", marginBottom: 6, fontWeight: 500 }}>{label}</label>
       {children}
     </div>
   );
 }
 
 const card: React.CSSProperties = {
-  background: "#1e1e24", border: "1px solid #2e2e38", borderRadius: 14,
+  background: "white", border: "1px solid #e8e0d0", borderRadius: 14,
   padding: 20, marginBottom: 16,
 };
 const cardTitle: React.CSSProperties = {
   display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "1.5px",
-  textTransform: "uppercase", color: "#71717a", marginBottom: 16, fontFamily: "monospace",
+  textTransform: "uppercase", color: "#6a7880", marginBottom: 16,
 };
 const input: React.CSSProperties = {
-  width: "100%", padding: "9px 12px", background: "#18181c",
-  border: "1px solid #2e2e38", borderRadius: 8, color: "#f1f0ed", fontSize: 14, outline: "none",
+  width: "100%", padding: "9px 12px", background: "#f5f0e6",
+  border: "1px solid #d0c8b0", borderRadius: 8, color: "#1a2428", fontSize: 14, outline: "none",
 };
 const sheetBtn = (active: boolean): React.CSSProperties => ({
-  padding: "8px 14px", borderRadius: 8, border: `1px solid ${active ? "#f97316" : "#2e2e38"}`,
-  background: active ? "#f97316" : "#18181c", color: active ? "#fff" : "#71717a",
+  padding: "8px 14px", borderRadius: 8, border: `1px solid ${active ? "#1a6b7c" : "#d0c8b0"}`,
+  background: active ? "#1a6b7c" : "white", color: active ? "#fff" : "#6a7880",
   fontSize: 13, cursor: "pointer", fontWeight: 500,
 });
 const pill: React.CSSProperties = {
   padding: "5px 11px", borderRadius: 20, fontSize: 12,
-  background: "#18181c", border: "1px solid #2e2e38",
+  background: "#f5f0e6", border: "1px solid #e8e0d0", color: "#1a2428",
 };
 const bigResult: React.CSSProperties = {
-  background: "rgba(249,115,22,.1)", border: "1px solid rgba(249,115,22,.25)",
+  background: "rgba(232,149,42,0.08)", border: "1px solid rgba(232,149,42,0.25)",
   borderRadius: 12, padding: 20, textAlign: "center",
 };
 const row2: React.CSSProperties = { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 };
 const btnPresupuesto: React.CSSProperties = {
   marginTop: 16, width: "100%", padding: "12px 0", borderRadius: 8, border: "none",
-  background: "#f97316", color: "#fff", fontSize: 14, fontWeight: 600, cursor: "pointer",
+  background: "#e8952a", color: "#fff", fontSize: 14, fontWeight: 600, cursor: "pointer",
 };
