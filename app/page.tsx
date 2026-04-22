@@ -147,13 +147,14 @@ export default function HomePage() {
       <nav className={s.nav}>
         <Link href="/" className={s.navLogo}>
           <PLogoMark size="nav" />
-          <span className={s.navLogoText}>pliego</span>
+          <span className={s.navLogoText}>Pliego</span>
         </Link>
         <div className={s.navLinks}>
           <Link href="#features" className={s.navLink}>Funciones</Link>
           <Link href="#how" className={s.navLink}>Cómo funciona</Link>
           <Link href="#pricing" className={s.navLink}>Precios</Link>
           <Link href="/demo" className={s.navLink}>Demo</Link>
+          <Link href="/sign-in" className={`${s.navLink} ${s.navSignIn}`}>Iniciar sesión</Link>
           <Link href="/sign-up" className={`${s.navLink} ${s.navCta}`}>Crear cuenta gratis</Link>
         </div>
       </nav>
@@ -233,7 +234,7 @@ export default function HomePage() {
           <div className={s.rubroCard}>
             <div style={{ background: "#1a6b7c", padding: "32px 28px 28px" }}>
               <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(255,255,255,0.5)", marginBottom: 16 }}>
-                Stickers &amp; gráfica
+                Stickers &amp; papelería
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 5, maxWidth: 180 }}>
                 {[1,1,1,1,1,0, 1,1,1,1,1,0, 1,1,1,"a",0,0].map((v, i) => (
@@ -339,7 +340,7 @@ export default function HomePage() {
         {/* More industries chips */}
         <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
           <span style={{ fontSize: 11, fontWeight: 700, color: "#a09080", letterSpacing: "0.1em", textTransform: "uppercase" }}>También:</span>
-          {["🕯️ Velas", "🌿 Cosmética natural", "🪵 Carpintería", "👜 Marroquinería", "🍰 Repostería", "+ muchos más"].map((chip) => (
+          {["🕯️ Velas", "🌿 Cosmética natural", "🪵 Carpintería", "🚗 Detailing de autos", "🍰 Repostería", "🔩 Herrería", "+ muchos más"].map((chip) => (
             <span key={chip} style={{ fontSize: 13, fontWeight: 500, padding: "6px 16px", background: "white", border: "1px solid #e0d8c8", borderRadius: 100, color: "#4a5a60" }}>{chip}</span>
           ))}
         </div>
