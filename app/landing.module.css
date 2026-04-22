@@ -4,6 +4,7 @@
   color: #1a2428;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* ── NAV ── */
@@ -44,6 +45,11 @@
   transition: color 0.2s;
 }
 .navLink:hover { color: rgba(255,255,255,0.9); }
+.navSignIn {
+  color: rgba(255,255,255,0.7) !important;
+  font-weight: 600 !important;
+}
+.navSignIn:hover { color: white !important; }
 .navCta {
   background: #e8952a !important;
   color: white !important;
@@ -493,8 +499,9 @@
 
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
-  .nav { padding: 0 24px; }
-  .navLinks { gap: 16px; }
+  .nav { padding: 0 20px; overflow: hidden; }
+  .navLink:not(.navCta):not(.navSignIn) { display: none; }
+  .navLinks { gap: 0; }
   .hero { grid-template-columns: 1fr; padding: 60px 24px; min-height: auto; }
   .heroVisual { display: none; }
   .features { padding: 80px 24px; }

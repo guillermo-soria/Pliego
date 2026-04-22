@@ -1,51 +1,124 @@
 import { SignIn } from "@clerk/nextjs";
 import Link from "next/link";
 
+function PLogoMark() {
+  return (
+    <svg width="28" height="32" viewBox="0 0 28 32" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="0" width="6" height="6" rx="1" fill="white" />
+      <rect x="8" y="0" width="6" height="6" rx="1" fill="white" />
+      <rect x="16" y="0" width="6" height="6" rx="1" fill="rgba(255,255,255,0.2)" />
+      <rect x="0" y="8" width="6" height="6" rx="1" fill="white" />
+      <rect x="8" y="8" width="6" height="6" rx="1" fill="rgba(255,255,255,0.2)" />
+      <rect x="16" y="8" width="6" height="6" rx="1" fill="white" />
+      <rect x="0" y="16" width="6" height="6" rx="1" fill="white" />
+      <rect x="8" y="16" width="6" height="6" rx="1" fill="white" />
+      <rect x="16" y="16" width="6" height="6" rx="1" fill="rgba(255,255,255,0.2)" />
+      <rect x="0" y="24" width="6" height="6" rx="1" fill="white" />
+      <rect x="8" y="24" width="6" height="6" rx="1" fill="#e8952a" opacity="0.7" />
+      <rect x="16" y="24" width="6" height="6" rx="1" fill="#e8952a" />
+    </svg>
+  );
+}
+
 export default function SignInPage() {
   return (
     <div style={wrapper}>
-      <Link href="/" style={logo}>Pliego</Link>
-      <p style={sub}>Iniciá sesión para acceder a tus presupuestos</p>
-      <SignIn />
-      <p style={footer}>
-        ¿No tenés cuenta?{" "}
-        <Link href="/sign-up" style={footerLink}>Crear cuenta gratis</Link>
-      </p>
+      <div style={bgGrid} aria-hidden="true" />
+
+      <div style={card}>
+        <Link href="/" style={logoLink}>
+          <PLogoMark />
+          <span style={logoText}>pliego</span>
+        </Link>
+
+        <h1 style={heading}>Bienvenido de nuevo</h1>
+        <p style={sub}>Iniciá sesión para acceder a tus presupuestos.</p>
+
+        <SignIn />
+
+        <p style={footer}>
+          ¿No tenés cuenta?{" "}
+          <Link href="/sign-up" style={footerLink}>Crear cuenta gratis</Link>
+        </p>
+      </div>
     </div>
   );
 }
 
 const wrapper: React.CSSProperties = {
   minHeight: "100vh",
-  background: "#0f0f11",
+  background: "#0a3a48",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
-  padding: 16,
-  gap: 0,
+  padding: "24px 16px",
+  position: "relative",
+  fontFamily: "var(--font-inter), 'Inter', Helvetica, sans-serif",
 };
-const logo: React.CSSProperties = {
-  fontSize: 28,
-  fontWeight: 700,
-  color: "#f97316",
-  letterSpacing: -1,
+
+const bgGrid: React.CSSProperties = {
+  position: "absolute",
+  inset: 0,
+  backgroundImage: [
+    "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)",
+    "linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
+  ].join(","),
+  backgroundSize: "80px 80px",
+  pointerEvents: "none",
+};
+
+const card: React.CSSProperties = {
+  position: "relative",
+  zIndex: 1,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  width: "100%",
+  maxWidth: 480,
+};
+
+const logoLink: React.CSSProperties = {
+  display: "flex",
+  alignItems: "center",
+  gap: 12,
   textDecoration: "none",
-  marginBottom: 8,
+  marginBottom: 28,
 };
-const sub: React.CSSProperties = {
-  color: "#71717a",
-  fontSize: 14,
-  marginBottom: 24,
+
+const logoText: React.CSSProperties = {
+  fontSize: 24,
+  fontWeight: 800,
+  color: "white",
+  letterSpacing: "-0.5px",
+};
+
+const heading: React.CSSProperties = {
+  fontSize: 28,
+  fontWeight: 900,
+  color: "white",
+  letterSpacing: "-1px",
+  marginBottom: 8,
   textAlign: "center",
 };
+
+const sub: React.CSSProperties = {
+  fontSize: 15,
+  color: "rgba(255,255,255,0.5)",
+  marginBottom: 28,
+  textAlign: "center",
+  lineHeight: 1.5,
+};
+
 const footer: React.CSSProperties = {
   marginTop: 20,
   fontSize: 14,
-  color: "#71717a",
+  color: "rgba(255,255,255,0.4)",
+  textAlign: "center",
 };
+
 const footerLink: React.CSSProperties = {
-  color: "#f97316",
+  color: "#e8952a",
   textDecoration: "none",
   fontWeight: 600,
 };
